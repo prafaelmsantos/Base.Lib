@@ -1,0 +1,16 @@
+*.v2
+*.pdb
+*.dll
+*.cache
+*.txt
+*.dll
+*.config
+*.cache
+*.vsidx
+*obj
+/obj
+/bin
+/.vs
+*.exe
+/RafaelSantos.Base.Lib/obj
+/RafaelSantos.Base.Lib/bin

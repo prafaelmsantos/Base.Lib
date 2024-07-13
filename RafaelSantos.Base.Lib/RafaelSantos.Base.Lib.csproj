@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	<IsPackable>true</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>RafaelSantos.Base.Lib</Title>
+    <Authors>Pedro Rafael Moreira dos Santos</Authors>
+    <Company>Pedro Rafael Moreira dos Santos</Company>
+	<Description>My personal base library.</Description>
+	<Version>1.0.0</Version>
+  </PropertyGroup>
+
+</Project>

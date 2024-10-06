@@ -6,11 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>RafaelSantos.Base.Lib</Title>
+    <Title>Base.Lib</Title>
     <Authors>Pedro Rafael Moreira dos Santos</Authors>
     <Company>Pedro Rafael Moreira dos Santos</Company>
 	<Description>My personal base library.</Description>
-	<Version>1.0.3</Version>
+	<Version>1.0.0</Version>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageIcon>Vehicle.jpg</PackageIcon>
   </PropertyGroup>
@@ -39,10 +39,6 @@
 	<PackageReference Include="Silverback.Integration.Newtonsoft" Version="4.5.1" />
     <PackageReference Include="StructureMap" Version="4.7.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.8.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>

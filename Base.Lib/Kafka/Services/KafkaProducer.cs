@@ -1,4 +1,4 @@
-﻿namespace RafaelSantos.Base.Lib.Kafka.Services
+﻿namespace Base.Lib.Kafka.Services
 {
     public class KafkaProducer : IKafkaProducer
     {

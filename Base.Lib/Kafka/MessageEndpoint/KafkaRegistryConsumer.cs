@@ -1,4 +1,4 @@
-﻿namespace RafaelSantos.Base.Lib.Kafka.MessageEndpoint
+﻿namespace Base.Lib.Kafka.MessageEndpoint
 {
     public class KafkaRegistryConsumer : IEndpointsConfigurator
     {
@@ -105,7 +105,6 @@
             {
                 _logger.LogWarning(ex.Message, ex);
             }
-
         }
 
         private List<string> GetRegistredConsumers()

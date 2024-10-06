@@ -1,4 +1,4 @@
-﻿namespace RafaelSantos.Base.Lib.Kafka.Interfaces
+﻿namespace Base.Lib.Kafka.Interfaces
 {
     public interface IBaseBrokerMessage
     {

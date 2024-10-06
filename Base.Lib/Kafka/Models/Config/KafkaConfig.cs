@@ -1,4 +1,4 @@
-﻿namespace RafaelSantos.Base.Lib.Kafka.Models.Base
+﻿namespace Base.Lib.Kafka.Models.Config
 {
     public class KafkaConfig
     {

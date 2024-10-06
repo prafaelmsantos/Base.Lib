@@ -1,4 +1,4 @@
-# Rafael Santos Base Lib
+# Base Lib
 My personal base library.
 
 # Author

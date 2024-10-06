@@ -1,4 +1,4 @@
-﻿namespace RafaelSantos.Base.Lib.Kafka.ServiceRegistration
+﻿namespace Base.Lib.Kafka.ServiceRegistration
 {
     public static class ServiceCollectionExtension
     {

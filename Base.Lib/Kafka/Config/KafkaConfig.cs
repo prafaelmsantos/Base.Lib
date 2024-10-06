@@ -6,7 +6,6 @@
         public string? Producers { get; set; }
         public string Consumers { get; set; } = null!;
         public bool Enable { get; set; } = false;
-        public string Name { get; set; } = null!;
         public bool UseSSL_TLS { get; set; }
         public string Server { get; set; } = null!;
         public int Port { get; set; }
@@ -21,7 +20,6 @@
             string? producers,
             string consumers,
             bool enable,
-            string name,
             bool useSSL_TLS,
             string server,
             int port,
@@ -35,7 +33,6 @@
             Producers = producers;
             Consumers = consumers;
             Enable = enable;
-            Name = name;
             UseSSL_TLS = useSSL_TLS;
             Server = server;
             Port = port;

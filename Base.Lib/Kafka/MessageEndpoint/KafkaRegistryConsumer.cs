@@ -2,12 +2,12 @@
 {
     public class KafkaRegistryConsumer : IEndpointsConfigurator
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<KafkaRegistryConsumer> _logger;
         private readonly KafkaConfig _brokerConfig;
         private readonly List<string> _consumers;
         private readonly IAdminClient _adminClient;
 
-        public KafkaRegistryConsumer(ILogger logger, KafkaConfig brokerConfig)
+        public KafkaRegistryConsumer(ILogger<KafkaRegistryConsumer> logger, KafkaConfig brokerConfig)
         {
             _logger = logger;
             _brokerConfig = brokerConfig;

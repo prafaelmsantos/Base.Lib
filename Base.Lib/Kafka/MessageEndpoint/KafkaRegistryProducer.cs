@@ -2,10 +2,10 @@
 {
     public class KafkaRegistryProducer : IEndpointsConfigurator
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<KafkaRegistryProducer> _logger;
         private readonly KafkaConfig _brokerConfig;
 
-        public KafkaRegistryProducer(ILogger logger, KafkaConfig brokerConfig)
+        public KafkaRegistryProducer(ILogger<KafkaRegistryProducer> logger, KafkaConfig brokerConfig)
         {
             _logger = logger;
             _brokerConfig = brokerConfig;

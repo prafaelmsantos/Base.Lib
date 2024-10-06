@@ -15,14 +15,13 @@
             bool validEnable = bool.TryParse(Environment.GetEnvironmentVariable("KAFKA_ENABLE"), out bool enableValue);
             bool enable = validEnable ? enableValue : configuration?.GetValue<bool>("Kafka:Enable") ?? false;
 
-            string name = Environment.GetEnvironmentVariable("KAFKA_NAME") ?? configuration?.GetValue<string>("Kafka:Name") ?? string.Empty;
+            string username = Environment.GetEnvironmentVariable("KAFKA_USERNAME") ?? configuration?.GetValue<string>("Kafka:Username") ?? string.Empty;
             string password = Environment.GetEnvironmentVariable("KAFKA_PASSWORD") ?? configuration?.GetValue<string>("Kafka:Password") ?? string.Empty;
 
             bool validPort = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_PORT"), out int portValue);
             int port = validPort ? portValue : configuration?.GetValue<int>("Kafka:Port") ?? 0;
 
             string server = Environment.GetEnvironmentVariable("KAFKA_SERVER") ?? configuration?.GetValue<string>("Kafka:Server") ?? string.Empty;
-            string username = Environment.GetEnvironmentVariable("KAFKA_USERNAME") ?? configuration?.GetValue<string>("Kafka:Username") ?? string.Empty;
 
             bool validuseSSL_TLS = bool.TryParse(Environment.GetEnvironmentVariable("KAFKA_USESSL_TLS"), out bool useSSL_TLSValue);
             bool useSSL_TLS = validEnable ? enableValue : configuration?.GetValue<bool>("Kafka:UseSSL_TLS") ?? false;
@@ -38,7 +37,7 @@
             services.AddSilverback();
             services.AddScoped<IKafkaProducer, Services.KafkaProducer>();
 
-            KafkaConfig brokerConfig = new(topics, producers, consumers, enable, name, useSSL_TLS, server, port, username, password, retryAttempts, partitions, groupId);
+            KafkaConfig brokerConfig = new(topics, producers, consumers, enable, useSSL_TLS, server, port, username, password, retryAttempts, partitions, groupId);
             services.AddSingleton(brokerConfig);
 
             services.ConfigureSilverback().WithConnectionToMessageBroker(options => options

@@ -2,11 +2,11 @@
 {
     public class KafkaProducer : IKafkaProducer
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<KafkaProducer> _logger;
         private readonly IPublisher _publisher;
         private readonly IBroker _broker;
 
-        public KafkaProducer(ILogger logger, IPublisher publisher, IBroker broker)
+        public KafkaProducer(ILogger<KafkaProducer> logger, IPublisher publisher, IBroker broker)
         {
             _logger = logger;
             _publisher = publisher;

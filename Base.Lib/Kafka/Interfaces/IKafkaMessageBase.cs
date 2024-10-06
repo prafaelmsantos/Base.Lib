@@ -1,6 +1,6 @@
 ﻿namespace Base.Lib.Kafka.Interfaces
 {
-    public interface IBaseBrokerMessage
+    public interface IKafkaMessageBase
     {
         public static string QueueName { get; } = null!;
         public static string TopicName { get; } = null!;

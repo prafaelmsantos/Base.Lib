@@ -1,6 +1,6 @@
-﻿global using Base.Lib.Kafka.Interfaces;
+﻿global using Base.Lib.Kafka.Config;
+global using Base.Lib.Kafka.Interfaces;
 global using Base.Lib.Kafka.MessageEndpoint;
-global using Base.Lib.Kafka.Models.Config;
 global using Base.Lib.Kafka.ServiceRegistration;
 global using Confluent.Kafka;
 global using Confluent.Kafka.Admin;

@@ -1,4 +1,4 @@
-﻿namespace Base.Lib.Kafka.Models
+﻿namespace Base.Lib.Kafka.Contracts
 {
     public abstract class KafkaMessageBase
     {

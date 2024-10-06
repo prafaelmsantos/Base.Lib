@@ -18,7 +18,7 @@
                     {
                         Assembly refLoad = Assembly.Load(refAssembly);
                         IEnumerable<Type> BrokerMessages = refLoad.ExportedTypes
-                            .Where(t => typeof(IBaseBrokerMessage).GetTypeInfo().IsAssignableFrom(t.GetTypeInfo()))
+                            .Where(t => typeof(IKafkaMessageBase).GetTypeInfo().IsAssignableFrom(t.GetTypeInfo()))
                             .Where(t => !t.GetTypeInfo().IsAbstract);
                         if (!BrokerMessages.Any())
                         {

@@ -2,9 +2,12 @@
 {
     public class KafkaRegistryProducer : IEndpointsConfigurator
     {
+        private readonly ILogger _logger;
         private readonly KafkaConfig _brokerConfig;
-        public KafkaRegistryProducer(KafkaConfig brokerConfig)
+
+        public KafkaRegistryProducer(ILogger logger, KafkaConfig brokerConfig)
         {
+            _logger = logger;
             _brokerConfig = brokerConfig;
         }
 
@@ -16,7 +19,8 @@
             }
             else
             {
-                //_logger.Error("Error on Broker Configs", new Exception("Configs not available for Kafka Broker"));
+                Exception ex = new("Configs not available for Kafka Broker");
+                _logger.LogError(ex.Message, ex);
             }
         }
         private void AddKafkaEndpoints(IEndpointsConfigurationBuilder builder)
@@ -27,15 +31,12 @@
             {
                 foreach (Type type in List)
                 {
-                    string QueueName = "";
-                    string TopicName = "";
-                    int partition = 1;
                     try
                     {
-                        QueueName = (string?)type.GetProperty("QueueName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
-                        TopicName = (string?)type.GetProperty("TopicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
-                        partition = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
-                        Console.WriteLine($"Add Kafka Producer -> QueueName : {QueueName} | TopicName :  {TopicName} | Partition : {partition}");
+                        string queueName = (string?)type.GetProperty("queueName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
+                        string topicName = (string?)type.GetProperty("topicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
+                        int partition = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
+                        Console.WriteLine($"Add Kafka Producer -> queueName : {queueName} | topicName :  {topicName} | Partition : {partition}");
                         Type genericClass = typeof(JsonMessageSerializer<>);
                         Type constructedClass = genericClass.MakeGenericType(type);
                         object created = Activator.CreateInstance(constructedClass)!;
@@ -49,7 +50,7 @@
                                                         config.BootstrapServers = $"{_brokerConfig.Server}:{_brokerConfig.Port}";
                                                     })
                                 .AddOutbound(type, endpoint => endpoint
-                                         .ProduceTo(TopicName)
+                                         .ProduceTo(topicName)
                                          .SerializeAsJsonUsingNewtonsoft()
                                          .SerializeUsing((IMessageSerializer)created)
                                          .ValidateMessage(throwException: false)
@@ -57,26 +58,23 @@
                     }
                     catch (Exception ex)
                     {
-                        //_logger.Error(QueueName, ex);
+                        _logger.LogError(ex.Message, ex);
                     }
                 }
             }
             else
             {
-                string QueueName = "";
-                string TopicName = "";
-                int partition = 1;
                 List<string> producers = [.. _brokerConfig.Producers.ToLower().Split(',')];
                 foreach (Type type in List)
                 {
                     try
                     {
 
-                        QueueName = (string?)type.GetProperty("QueueName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
-                        TopicName = (string?)type.GetProperty("TopicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
-                        partition = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
-                        Console.WriteLine($"Add Kafka producer -> QueueName : {QueueName} | TopicName :  {TopicName} | Partition : {partition}");
-                        if (producers.Contains((string?)type.GetProperty("TopicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty))
+                        string queueName = (string?)type.GetProperty("queueName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
+                        string topicName = (string?)type.GetProperty("topicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
+                        int partition = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
+                        Console.WriteLine($"Add Kafka producer -> queueName : {queueName} | topicName :  {topicName} | Partition : {partition}");
+                        if (producers.Contains((string?)type.GetProperty("topicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty))
                         {
                             Type genericClass = typeof(JsonMessageSerializer<>);
                             Type constructedClass = genericClass.MakeGenericType(type);
@@ -92,7 +90,7 @@
                                                         config.BootstrapServers = $"{_brokerConfig.Server}:{_brokerConfig.Port}";
                                                     })
                                     .AddOutbound(type, endpoint => endpoint
-                                             .ProduceTo(TopicName)
+                                             .ProduceTo(topicName)
                                              .SerializeUsing((IMessageSerializer)created)
                                              .ValidateMessage(throwException: false)
                                              .DisableMessageValidation()));
@@ -101,11 +99,10 @@
                     }
                     catch (Exception ex)
                     {
-                        //_logger.Error(QueueName, ex);
+                        _logger.LogError(ex.Message, ex);
                     }
                 }
             }
         }
-
     }
 }

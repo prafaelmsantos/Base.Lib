@@ -2,11 +2,13 @@
 {
     public class KafkaProducer : IKafkaProducer
     {
+        private readonly ILogger _logger;
         private readonly IPublisher _publisher;
         private readonly IBroker _broker;
 
-        public KafkaProducer(IPublisher publisher, IBroker broker)
+        public KafkaProducer(ILogger logger, IPublisher publisher, IBroker broker)
         {
+            _logger = logger;
             _publisher = publisher;
             _broker = broker;
         }
@@ -18,13 +20,12 @@
                 if (_broker.IsConnected)
                 {
                     await _publisher.PublishAsync(message!);
-
-                    //_logger.Information($"Produced {message}");
+                    _logger.LogInformation($"Produced {message}");
                 }
                 else
                 {
-                    Exception ex = new("Broker is not connected.");
-                    //_logger.Error("Broker is not connected", ex);
+                    Exception ex = new("Kafka is not connected.");
+                    _logger.LogInformation(ex.Message, ex);
                     throw ex;
                 }
 
@@ -32,7 +33,7 @@
             }
             catch (Exception ex)
             {
-                //_logger.Error($"Failed to produce {message}", ex);
+                _logger.LogError($"Failed to produce {message}", ex);
                 throw;
             }
         }

@@ -34,11 +34,11 @@
 
             string groupId = Environment.GetEnvironmentVariable("KAFKA_GROUP_ID") ?? configuration?.GetValue<string>("Kafka:GroupId") ?? string.Empty;
 
-            services.AddSilverback();
-            services.AddScoped<IKafkaProducer, Services.KafkaProducer>();
-
             KafkaConfig brokerConfig = new(topics, producers, consumers, enable, useSSL_TLS, server, port, username, password, retryAttempts, partitions, groupId);
             services.AddSingleton(brokerConfig);
+
+            services.AddSilverback();
+            services.AddScoped<IKafkaProducer, Services.KafkaProducer>();
 
             services.ConfigureSilverback().WithConnectionToMessageBroker(options => options
                 .AddKafka())

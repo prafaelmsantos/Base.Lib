@@ -2,12 +2,14 @@
 {
     public class KafkaRegistryConsumer : IEndpointsConfigurator
     {
+        private readonly ILogger _logger;
         private readonly KafkaConfig _brokerConfig;
         private readonly List<string> _consumers;
         private readonly IAdminClient _adminClient;
 
-        public KafkaRegistryConsumer(KafkaConfig brokerConfig)
+        public KafkaRegistryConsumer(ILogger logger, KafkaConfig brokerConfig)
         {
+            _logger = logger;
             _brokerConfig = brokerConfig;
             _consumers = GetRegistredConsumers();
 
@@ -27,7 +29,8 @@
             }
             else
             {
-                //_logger.Error("Error on Broker Configs", new Exception("Configs not available for Kafka Broker"));
+                Exception ex = new("Configs not available for Kafka Broker");
+                _logger.LogError(ex.Message, ex);
             }
         }
 
@@ -77,7 +80,7 @@
                 }
                 catch (Exception ex)
                 {
-                    // _logger.Error(ex.Message, ex);
+                    _logger.LogError(ex.Message, ex);
                 }
             }
         }
@@ -98,9 +101,9 @@
 
                 _adminClient.CreateTopicsAsync(topicSpecifications).Wait();
             }
-            catch (AggregateException e)
+            catch (AggregateException ex)
             {
-                //_logger.Warning(e.Message);
+                _logger.LogWarning(ex.Message, ex);
             }
 
         }

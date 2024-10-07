@@ -5,7 +5,7 @@
         [JsonPropertyName("id")]
         public long Id { get; set; }
 
-        [JsonPropertyName("message")]
-        public string Message { get; set; } = null!;
+        [JsonPropertyName("content")]
+        public required string Content { get; set; }
     }
 }

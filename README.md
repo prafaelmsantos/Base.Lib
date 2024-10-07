@@ -1,6 +1,6 @@
 # Base Lib
 My personal base library.
-Includes Kafka producer, consumer and contracts.
+Includes base models, mappings, Kafka producer, consumer and contracts.
 
 # Author
 Rafael Santos

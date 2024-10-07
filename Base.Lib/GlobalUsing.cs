@@ -1,9 +1,12 @@
-﻿global using Base.Lib.Kafka.Config;
+﻿global using Base.Lib.Data.Domains;
+global using Base.Lib.Kafka.Config;
 global using Base.Lib.Kafka.Interfaces;
 global using Base.Lib.Kafka.MessageEndpoint;
 global using Base.Lib.Kafka.ServiceRegistration;
 global using Confluent.Kafka;
 global using Confluent.Kafka.Admin;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.DependencyModel;

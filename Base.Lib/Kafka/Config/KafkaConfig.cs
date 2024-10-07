@@ -2,7 +2,6 @@
 {
     public class KafkaConfig
     {
-        public string Topics { get; set; } = null!;
         public string Producers { get; set; } = null!;
         public string Consumers { get; set; } = null!;
         public bool Enable { get; set; } = false;
@@ -13,7 +12,6 @@
         public int Partitions { get; set; }
 
         public KafkaConfig(
-            string topics,
             string producers,
             string consumers,
             bool enable,
@@ -23,7 +21,6 @@
             int retryAttempts,
             int partitions)
         {
-            Topics = topics;
             Producers = producers;
             Consumers = consumers;
             Enable = enable;

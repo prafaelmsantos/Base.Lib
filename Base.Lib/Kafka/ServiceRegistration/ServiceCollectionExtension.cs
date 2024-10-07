@@ -9,7 +9,6 @@
 
         public static IServiceCollection AddKafkaServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string topics = Environment.GetEnvironmentVariable("KAFKA_TOPICS") ?? configuration?.GetValue<string>("Kafka:Topics") ?? string.Empty;
             string producers = Environment.GetEnvironmentVariable("KAFKA_PRODUCERS") ?? configuration?.GetValue<string>("Kafka:Producers") ?? string.Empty;
             string consumers = Environment.GetEnvironmentVariable("KAFKA_CONSUMERS") ?? configuration?.GetValue<string>("Kafka:Consumers") ?? string.Empty;
 
@@ -30,7 +29,7 @@
             bool validPartitions = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_PARTITIONS"), out int partitionsValue);
             int partitions = validPort ? partitionsValue : configuration?.GetValue<int>("Kafka:Partitions") ?? 5;
 
-            KafkaConfig brokerConfig = new(topics, producers, consumers, enable, useSSL_TLS, server, port, retryAttempts, partitions);
+            KafkaConfig brokerConfig = new(producers, consumers, enable, useSSL_TLS, server, port, retryAttempts, partitions);
             services.AddSingleton(brokerConfig);
 
             services.AddSilverback();

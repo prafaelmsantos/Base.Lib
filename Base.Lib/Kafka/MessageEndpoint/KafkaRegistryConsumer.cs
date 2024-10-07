@@ -9,7 +9,6 @@
         #endregion
 
         #region Constructors
-
         public KafkaRegistryConsumer(ILogger<KafkaRegistryConsumer> logger, KafkaConfig brokerConfig)
         {
             _logger = logger;

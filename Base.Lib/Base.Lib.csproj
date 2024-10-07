@@ -9,8 +9,9 @@
     <Title>Base.Lib</Title>
     <Authors>Pedro Rafael Moreira dos Santos</Authors>
     <Company>Pedro Rafael Moreira dos Santos</Company>
-	<Description>My personal base library.</Description>
-	<Version>1.0.5</Version>
+	<Description>My personal base library.
+Includes Kafka producer, consumer and contracts.</Description>
+	<Version>1.0.6</Version>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageIcon>Vehicle.jpg</PackageIcon>
   </PropertyGroup>

@@ -6,6 +6,7 @@
         {
             return services.AddKafkaServices(services.BuildServiceProvider().GetRequiredService<IConfiguration>());
         }
+
         public static IServiceCollection AddKafkaServices(this IServiceCollection services, IConfiguration configuration)
         {
             string topics = Environment.GetEnvironmentVariable("KAFKA_TOPICS") ?? configuration?.GetValue<string>("Kafka:Topics") ?? string.Empty;
@@ -14,9 +15,6 @@
 
             bool validEnable = bool.TryParse(Environment.GetEnvironmentVariable("KAFKA_ENABLE"), out bool enableValue);
             bool enable = validEnable ? enableValue : configuration?.GetValue<bool>("Kafka:Enable") ?? false;
-
-            string username = Environment.GetEnvironmentVariable("KAFKA_USERNAME") ?? configuration?.GetValue<string>("Kafka:Username") ?? string.Empty;
-            string password = Environment.GetEnvironmentVariable("KAFKA_PASSWORD") ?? configuration?.GetValue<string>("Kafka:Password") ?? string.Empty;
 
             bool validPort = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_PORT"), out int portValue);
             int port = validPort ? portValue : configuration?.GetValue<int>("Kafka:Port") ?? 0;
@@ -32,9 +30,7 @@
             bool validPartitions = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_PARTITIONS"), out int partitionsValue);
             int partitions = validPort ? partitionsValue : configuration?.GetValue<int>("Kafka:Partitions") ?? 5;
 
-            string groupId = Environment.GetEnvironmentVariable("KAFKA_GROUP_ID") ?? configuration?.GetValue<string>("Kafka:GroupId") ?? string.Empty;
-
-            KafkaConfig brokerConfig = new(topics, producers, consumers, enable, useSSL_TLS, server, port, username, password, retryAttempts, partitions, groupId);
+            KafkaConfig brokerConfig = new(topics, producers, consumers, enable, useSSL_TLS, server, port, retryAttempts, partitions);
             services.AddSingleton(brokerConfig);
 
             services.AddSilverback();

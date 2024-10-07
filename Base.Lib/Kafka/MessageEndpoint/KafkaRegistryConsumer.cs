@@ -2,16 +2,18 @@
 {
     public class KafkaRegistryConsumer : IEndpointsConfigurator
     {
+        #region Private variables
         private readonly ILogger<KafkaRegistryConsumer> _logger;
         private readonly KafkaConfig _brokerConfig;
-        private readonly List<string> _consumers;
         private readonly IAdminClient _adminClient;
+        #endregion
+
+        #region Constructors
 
         public KafkaRegistryConsumer(ILogger<KafkaRegistryConsumer> logger, KafkaConfig brokerConfig)
         {
             _logger = logger;
             _brokerConfig = brokerConfig;
-            _consumers = GetRegistredConsumers();
 
             List<KeyValuePair<string, string>> clientConfig =
             [
@@ -20,7 +22,9 @@
 
             _adminClient = new AdminClientBuilder(clientConfig).Build();
         }
+        #endregion
 
+        #region Public methods
         public void Configure(IEndpointsConfigurationBuilder builder)
         {
             if (_brokerConfig.Enable)
@@ -33,7 +37,9 @@
                 _logger.LogError(ex.Message, ex);
             }
         }
+        #endregion
 
+        #region Private methods
         private void AddKafkaEndpoints(IEndpointsConfigurationBuilder builder)
         {
             Type[] existingContracts = BrokerExtension.GetAllMessageTypesFromAssemblies();
@@ -42,13 +48,14 @@
             {
                 try
                 {
-                    if (_consumers.Contains(contract.Name))
+                    var consumers = GetRegistredConsumers();
+                    if (consumers.Contains(contract.Name))
                     {
                         string topicName = (string?)contract.GetProperty("TopicName")?.GetValue(contract.GetDefaultValue()) ?? string.Empty;
                         string queueName = (string?)contract.GetProperty("QueueName")?.GetValue(contract.GetDefaultValue()) ?? string.Empty;
                         int batchSize = (int?)contract.GetProperty("BatchProcessing")?.GetValue(contract.GetDefaultValue()) ?? 100;
                         int batchInterval = (int?)contract.GetProperty("BatchProcessingInterval")?.GetValue(contract.GetDefaultValue()) ?? 5;
-                        string consumerGroup = $"{queueName}_{_brokerConfig.GroupId}";
+                        string groupId = $"{queueName}_{(string?)contract.GetProperty("GroupId")?.GetValue(contract.GetDefaultValue()) ?? string.Empty}";
 
                         CreateTopic(topicName, _brokerConfig.Partitions);
 
@@ -71,7 +78,7 @@
                                                     config =>
                                                     {
                                                         config.AllowAutoCreateTopics = true;
-                                                        config.GroupId = consumerGroup;
+                                                        config.GroupId = groupId;
                                                         config.AutoOffsetReset = AutoOffsetReset.Earliest;
                                                     })
                                                 .EnableBatchProcessing(batchSize, TimeSpan.FromSeconds(batchInterval))
@@ -112,6 +119,7 @@
             string consumers = _brokerConfig.Consumers;
             return string.IsNullOrWhiteSpace(consumers) ? [] : [.. consumers.Trim().Split(",")];
         }
+        #endregion
     }
 }
 

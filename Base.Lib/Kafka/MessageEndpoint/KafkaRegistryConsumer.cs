@@ -43,23 +43,28 @@
         {
             Type[] existingContracts = BrokerExtension.GetAllMessageTypesFromAssemblies();
 
-            foreach (Type contract in existingContracts)
+            foreach (Type type in existingContracts)
             {
                 try
                 {
                     var consumers = GetRegistredConsumers();
-                    if (consumers.Contains(contract.Name))
+                    if (consumers.Contains(type.Name))
                     {
-                        string topicName = (string?)contract.GetProperty("TopicName")?.GetValue(contract.GetDefaultValue()) ?? string.Empty;
-                        string queueName = (string?)contract.GetProperty("QueueName")?.GetValue(contract.GetDefaultValue()) ?? string.Empty;
-                        int batchSize = (int?)contract.GetProperty("BatchProcessing")?.GetValue(contract.GetDefaultValue()) ?? 100;
-                        int batchInterval = (int?)contract.GetProperty("BatchProcessingInterval")?.GetValue(contract.GetDefaultValue()) ?? 5;
-                        string groupId = $"{queueName}_{(string?)contract.GetProperty("GroupId")?.GetValue(contract.GetDefaultValue()) ?? string.Empty}";
+                        string queueName = (string?)type.GetProperty("QueueName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
+                        string topicName = (string?)type.GetProperty("TopicName")?.GetValue(type.GetDefaultValue()) ?? string.Empty;
 
-                        CreateTopic(topicName, _brokerConfig.Partitions);
+                        int batchSize = (int?)type.GetProperty("BatchProcessing")?.GetValue(type.GetDefaultValue()) ?? 100;
+                        int batchInterval = (int?)type.GetProperty("BatchProcessingInterval")?.GetValue(type.GetDefaultValue()) ?? 5;
+
+                        string groupId = $"{queueName}_{_brokerConfig.GroupId}";
+
+                        int partitions = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
+                        Console.WriteLine($"Add Kafka Consumer -> queueName : {queueName} | topicName :  {topicName} | Partitions : {partitions}");
+
+                        CreateTopic(topicName, partitions);
 
                         Type genericClass = typeof(JsonMessageSerializer<>);
-                        Type constructedClass = genericClass.MakeGenericType(contract);
+                        Type constructedClass = genericClass.MakeGenericType(type);
                         object created = Activator.CreateInstance(constructedClass)!;
 
                         builder

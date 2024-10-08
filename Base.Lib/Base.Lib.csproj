@@ -11,7 +11,7 @@
     <Company>Pedro Rafael Moreira dos Santos</Company>
 	<Description>My personal base library.
 Includes base models, mappings, Kafka producer, consumer and contracts.</Description>
-	<Version>1.0.8</Version>
+	<Version>1.0.9</Version>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageIcon>Vehicle.jpg</PackageIcon>
   </PropertyGroup>

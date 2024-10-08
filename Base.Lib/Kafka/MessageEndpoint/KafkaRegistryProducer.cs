@@ -45,8 +45,8 @@
                     {
                         string queueName = (string?)type.GetProperty("QueueName", BindingFlags.Public | BindingFlags.Static)?.GetValue(type.GetDefaultValue()) ?? string.Empty;
                         string topicName = (string?)type.GetProperty("TopicName", BindingFlags.Public | BindingFlags.Static)?.GetValue(type.GetDefaultValue()) ?? string.Empty;
-                        int partition = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
-                        Console.WriteLine($"Add Kafka Producer -> queueName : {queueName} | topicName :  {topicName} | Partition : {partition}");
+                        int partitions = (int?)type.GetProperty("Partitions")?.GetValue(type.GetDefaultValue()) ?? 1;
+                        Console.WriteLine($"Add Kafka Producer -> queueName : {queueName} | topicName :  {topicName} | Partitions : {partitions}");
 
                         Type genericClass = typeof(JsonMessageSerializer<>);
                         Type constructedClass = genericClass.MakeGenericType(type);

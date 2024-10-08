@@ -26,10 +26,9 @@
             bool validRetryAttempts = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_RETRY_ATTEMPTS"), out int retryAttemptsValue);
             int retryAttempts = validPort ? retryAttemptsValue : configuration?.GetValue<int>("Kafka:RetryAttempts") ?? 5;
 
-            bool validPartitions = int.TryParse(Environment.GetEnvironmentVariable("KAFKA_PARTITIONS"), out int partitionsValue);
-            int partitions = validPort ? partitionsValue : configuration?.GetValue<int>("Kafka:Partitions") ?? 5;
+            string groupId = Environment.GetEnvironmentVariable("KAFKA_GROUP_ID") ?? configuration?.GetValue<string>("Kafka:GroupId") ?? string.Empty;
 
-            KafkaConfig brokerConfig = new(producers, consumers, enable, useSSL_TLS, server, port, retryAttempts, partitions);
+            KafkaConfig brokerConfig = new(producers, consumers, enable, useSSL_TLS, server, port, retryAttempts, groupId);
             services.AddSingleton(brokerConfig);
 
             services.AddSilverback();

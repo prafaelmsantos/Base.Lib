@@ -9,7 +9,7 @@
         public string Server { get; set; } = null!;
         public int Port { get; set; }
         public int RetryAttempts { get; set; }
-        public int Partitions { get; set; }
+        public string GroupId { get; set; } = null!;
 
         public KafkaConfig(
             string producers,
@@ -19,7 +19,7 @@
             string server,
             int port,
             int retryAttempts,
-            int partitions)
+            string groupId)
         {
             Producers = producers;
             Consumers = consumers;
@@ -28,7 +28,7 @@
             Server = server;
             Port = port;
             RetryAttempts = retryAttempts;
-            Partitions = partitions;
+            GroupId = groupId;
         }
     }
 }
